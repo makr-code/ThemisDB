@@ -74,6 +74,8 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — CodeQL Analyse-Workflow
 - `.github/workflows/compliance-governance-gates.yml`
   — Compliance-/Governance- und Release-Policy-Gates
+- `.github/workflows/ga-promotion-signoff.yml`
+  — Human-initiated GA promotion sign-off validation + manifest/hash artifact generation for approved maintainer reviews or manual dispatch
 - `.github/workflows/maintenance-docs.yml`
   — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
 - `.github/workflows/maintenance-soll-ist-gap-issues.yml`
@@ -213,7 +215,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 55
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 56
 - Deaktivierte Workflows in `.github/no_workflows/`: 31
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.

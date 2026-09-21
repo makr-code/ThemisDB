@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "policy": "ga-promotion-signoff",
+  "maintainers": [
+    {
+      "github": "makr-code",
+      "role": "project-lead",
+      "can_sign_ga": true,
+      "source": ".github/CODEOWNERS"
+    }
+  ]
+}
