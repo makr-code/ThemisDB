@@ -36,7 +36,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: hash-sbom-${{ github.event.pull_request.number || github.ref }}
+  group: hash-sbom-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
