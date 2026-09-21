@@ -1,19 +1,16 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-09-14
+Datum: 2026-09-21
 Status: Active
 
 ## Summary
 
-- Added: 7731
+- Added: 7810
 - Removed: 0
 - Changed: 0
 
 ## Added
 
-- .github/workflows/13-wave-a-gpu-ci-execution.yml
-- .github/workflows/13-wave-b-llm-wiki-benchmarks.yml
-- .github/workflows/13-wave-b-transaction-ci-execution.yml
 - .github/workflows/automation-community.yml
 - .github/workflows/build-benchmarks.yml
 - .github/workflows/build-clang-fast.yml
@@ -21,6 +18,10 @@ Status: Active
 - .github/workflows/build-llm-inference.yml
 - .github/workflows/build-mainline.yml
 - .github/workflows/build-ollama-router.yml
+- .github/workflows/build-sanitizer-nightly.yml
+- .github/workflows/build-wave-a-gpu.yml
+- .github/workflows/build-wave-b-llm-benchmarks.yml
+- .github/workflows/build-wave-b-transaction.yml
 - .github/workflows/build-widget.yml
 - .github/workflows/compliance-governance-gates.yml
 - .github/workflows/compliance-supply-chain.yml
@@ -34,40 +35,45 @@ Status: Active
 - .github/workflows/gate-pr-doxygen-governance.yml
 - .github/workflows/gate-pr-edition-license.yml
 - .github/workflows/gate-pr-hash-sbom.yml
+- .github/workflows/gate-pr-merge-readiness.yml
+- .github/workflows/gate-pr-module-doxygen-xml.yml
 - .github/workflows/gate-pr-plugin-boundary.yml
+- .github/workflows/gate-pr-primary-doc-structure.yml
 - .github/workflows/gate-pr-version-targeting.yml
+- .github/workflows/gate-wave-closure.yml
 - .github/workflows/maintenance-ai-working.yml
 - .github/workflows/maintenance-architecture-ci.yml
 - .github/workflows/maintenance-build-issues.yml
 - .github/workflows/maintenance-ci-health.yml
 - .github/workflows/maintenance-docs-db-build.yml
 - .github/workflows/maintenance-docs.yml
-- .github/workflows/maintenance-issue-recommendations.yml
+- .github/workflows/maintenance-housekeeping.yml
 - .github/workflows/maintenance-issues.yml
-- .github/workflows/maintenance-labels.yml
-- .github/workflows/maintenance-milestones.yml
 - .github/workflows/maintenance-pr-failure-diagnosis.yml
+- .github/workflows/maintenance-soll-ist-gap-issues.yml
 - .github/workflows/maintenance-workflow-guardrails-observe.yml
 - .github/workflows/publish-wiki.yml
 - .github/workflows/release-build-matrix.yml
 - .github/workflows/release-changelog.yml
 - .github/workflows/release-docker-image.yml
+- .github/workflows/release-linux-distribution.yml
 - .github/workflows/release-mainline.yml
 - .github/workflows/release-nightly.yml
 - .github/workflows/release-promote.yml
-- .github/workflows/release-publish.yml
 - .github/workflows/release-rollback.yml
+- .github/workflows/release-windows-distribution.yml
 - .github/workflows/release-winget.yml
+- .github/workflows/release-wordpress-press.yml
 - .github/workflows/reusable-cmake-build.yml
 - .github/workflows/reusable-docs-db-builder.yml
 - .github/workflows/reusable-status-flags-and-issues.yml
-- .github/workflows/sanitizer-nightly.yml
 - .github/workflows/security-codeql.yml
 - .github/workflows/security-consolidated.yml
 - .github/workflows/security-dast-zap.yml
 - .github/workflows/security-fortify.yml
 - .github/workflows/security-fuzzing.yml
 - .github/workflows/security-pentest-quarterly.yml
+- .github/workflows/wiki-pr-gate.yml
 - AI_WIKI_INTEGRATION_PLAYBOOK.md
 - BRANCHING_STRATEGY.md
 - CHANGELOG.md
@@ -113,6 +119,12 @@ Status: Active
 - ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - ai_context/developer_llm_wiki/INDEX.md
 - ai_context/developer_llm_wiki/MODULES_AND_APIS.md
+- ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
+- ai_context/developer_llm_wiki/MODULE_DOXYGEN_BATCH_.md
+- ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
+- ai_context/developer_llm_wiki/MODULE_DOXYGEN_SMOKE_SUMMARY.md
+- ai_context/developer_llm_wiki/RETRIEVAL_DIRECT_DOXYGEN_CHECK.md
+- ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
 - ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - ai_context/memory_management_policy.md
 - docs/00_DOCUMENTATION_INDEX.md
@@ -199,19 +211,7 @@ Status: Active
 - docs/ARCHIVED/ai-working-history/BATCH4_1_FINAL_IMPLEMENTATION_SUMMARY.md
 - docs/ARCHIVED/ai-working-history/BATCH4_1_IMPLEMENTATION_COMPLETE.md
 - docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_A_COMPLETION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_B_COMPLETION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_B_VALIDATION.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_C_ANALYSIS.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_C_COMPLETION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_C_ESCALATION.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_C_SPEC.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_D_COMPLETION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_D_SPEC.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_E_COMPLETION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_E_SPEC.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_F_COMPLETION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_F_INVESTIGATION_REPORT.md
-- ... truncated (7531 more)
+- ... truncated (7610 more)
 
 ## Removed
 

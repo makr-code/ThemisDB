@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-09-14
+Datum: 2026-09-21
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -23,7 +23,7 @@ Status: Active
 
 ## CHANGELOG.md
 - Kategorie: governance_and_docs
-- Hash: `f90e1088c727c316`
+- Hash: `7ad42111ac267b9d`
 - Titel: Changelog
 - Auszug:
   - All notable changes to ThemisDB will be documented in this file.
@@ -32,7 +32,7 @@ Status: Active
 
 ## DOCUMENTATION_GOVERNANCE.md
 - Kategorie: governance_and_docs
-- Hash: `4b0c28204a0b5bc2`
+- Hash: `eb47bc3807975c3b`
 - Titel: ThemisDB Documentation Governance
 - Auszug:
   - > Author: ThemisDB Contributors
@@ -41,7 +41,7 @@ Status: Active
 
 ## FUTURE_ENHANCEMENTS.md
 - Kategorie: governance_and_docs
-- Hash: `771888801c66b8a7`
+- Hash: `de552eeef9d1ac51`
 - Titel: ThemisDB Future Enhancements (Root Index)
 - Auszug:
   - > Status: Active
@@ -59,7 +59,7 @@ Status: Active
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `5e6e3f4ae2fd4145`
+- Hash: `80f9b3c0de685a81`
 - Titel: ThemisDB Release Strategy
 - Auszug:
   - > Status: Active
@@ -68,7 +68,7 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `687d043113e16bdb`
+- Hash: `ff88365b88af13a4`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -122,7 +122,7 @@ Status: Active
 
 ## ai_context/COPILOT_INSTRUCTIONS.md
 - Kategorie: governance_and_docs
-- Hash: `7f88baa3bca0fe33`
+- Hash: `fefd90aa32143ac2`
 - Titel: Copilot Instructions (Repository-wide)
 - Auszug:
   - Datum: 2026-08-07
@@ -374,48 +374,102 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `40d01f56a2e43b1f`
+- Hash: `1e632407d5440204`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
-  - Datum: 2026-09-14
+  - Datum: 2026-09-21
   - Status: Active
   - - Kategorie: build_test_ci
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `72f763bf78d23bcb`
+- Hash: `522636c70f0e660e`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
-  - Datum: 2026-09-07
+  - Datum: 2026-09-14
   - Status: Active
   - - Kategorie: governance_and_docs
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `5b6c264d2fb1ba0e`
+- Hash: `8082d8944990f6c1`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
-  - Datum: 2026-09-14
+  - Datum: 2026-09-21
   - Status: Active
   - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 
 ## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
 - Kategorie: governance_and_docs
-- Hash: `4d51ec10b5220d45`
+- Hash: `1ba83673cd21b0de`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
-  - Datum: 2026-09-14
+  - Datum: 2026-09-21
   - Status: Active
   - - Kategorie: modules_and_api
 
+## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `cf14b8ecb3be977c`
+- Titel: Module Doxygen XML Artifact Summary
+- Auszug:
+  - - Generated At: 2026-09-20T09:10:36Z
+  - - Doxyfile: Doxyfile.audit
+  - - Modules Requested: 72
+
+## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BATCH_.md
+- Kategorie: governance_and_docs
+- Hash: `05a61e16cc763e8e`
+- Titel: Module Doxygen XML Artifact Summary
+- Auszug:
+  - - Generated At: 2026-09-20T08:31:26Z
+  - - Doxyfile: Doxyfile.audit
+  - - Modules Requested: 18
+
+## ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `d64cc9536cd2c0c6`
+- Titel: Module Doxygen Coverage Summary
+- Auszug:
+  - - Module: retrieval
+  - - Source mode: direct_doxygen_markers
+  - - Symbol presence ratio: 0.8261
+
+## ai_context/developer_llm_wiki/MODULE_DOXYGEN_SMOKE_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `915890f2e1b056c5`
+- Titel: Module Doxygen XML Artifact Summary
+- Auszug:
+  - - Generated At: 2026-09-20T08:28:30Z
+  - - Doxyfile: Doxyfile.audit
+  - - Modules Requested: 1
+
+## ai_context/developer_llm_wiki/RETRIEVAL_DIRECT_DOXYGEN_CHECK.md
+- Kategorie: governance_and_docs
+- Hash: `8b28508703df1324`
+- Titel: Direct Doxygen Check: retrieval
+- Auszug:
+  - - Source mode: direct_doxygen_markers
+  - - Source files scanned: 8
+  - - Source symbols (raw/filter): 70 / 53
+
+## ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `1961b054c86869fa`
+- Titel: Soll-Ist Gap Summary
+- Auszug:
+  - - Generated At: 2026-09-20T15:48:20Z
+  - - Modules: 72
+  - - Modules with docs gaps: 9
+
 ## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - Kategorie: governance_and_docs
-- Hash: `55af4851fa07421d`
+- Hash: `6f56d96ed49a0ec2`
 - Titel: Developer LLM Wiki — Delta Report
 - Auszug:
-  - Datum: 2026-09-07
+  - Datum: 2026-09-14
   - Status: Active
-  - - Added: 7718
+  - - Added: 7731
 
 ## ai_context/memory_management_policy.md
 - Kategorie: governance_and_docs
@@ -668,57 +722,3 @@ Status: Active
   - **Start Time**: 2026-08-15T07:36:55Z
   - **Executor**: themisdb-implementer (background agent, ID: phase1-analytics-fixes)
   - **Coordinator**: Code Review Agent (parallel oversight)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE2_A2_LAUNCH_READINESS_2026-08-15.md
-- Kategorie: governance_and_docs
-- Hash: `6d1f7199ff6679a0`
-- Titel: Analytics Module Phase 2 A-2 — Launch Readiness Brief
-- Auszug:
-  - **Date:** 2026-08-15 17:12 UTC
-  - **Status:** 🟢 READY TO LAUNCH (after Index Phase 2 merge)
-  - **Target Start:** 2026-08-23 (after Index A-2/A-3 validation)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE2_BATCH1_CICD_FINAL_REPORT.md
-- Kategorie: governance_and_docs
-- Hash: `b2a4b74372d9c6b1`
-- Titel: Analytics Module Phase 2: Batch 1 CI/CD Validation Report
-- Auszug:
-  - **Report Date**: 2026-08-15T08:25:00Z
-  - **Status**: ✅ **PHASE 2 VALIDATION COMPLETE**
-  - **Phase 1 Fixes**: All 6 critical defects implemented, committed, merged, and validated
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE2_BATCH1_CICD_VALIDATION_FRAMEWORK.md
-- Kategorie: governance_and_docs
-- Hash: `14caa8ffe4601828`
-- Titel: Analytics Phase 2: Batch 1 CI/CD Validation Framework
-- Auszug:
-  - **Status**: ⏳ In Progress
-  - **Started**: 2026-08-15T07:55:55Z
-  - **Purpose**: Validate Phase 1 fixes (6 critical defects) via CI/CD build + test on linux-release preset
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE2_BATCH1_EXECUTIVE_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `a1f300507945da96`
-- Titel: Analytics Phase 2: Batch 1 CI/CD Validation — Executive Summary
-- Auszug:
-  - **Date**: 2026-08-15T08:30:00Z
-  - **Status**: ✅ **VALIDATION COMPLETE - READY FOR SIGN-OFF**
-  - **Conclusion**: Phase 1 fixes are production-ready; Phase 3 gate ready to unlock upon gap-verifier approval
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE2_BATCH1_VALIDATION_REPORT.md
-- Kategorie: governance_and_docs
-- Hash: `1b24488937826e50`
-- Titel: Analytics Phase 2: Batch 1 CI/CD Validation — Final Report
-- Auszug:
-  - **Status**: ⏳ In Progress (Build Step 2)
-  - **Date**: 2026-08-15T08:00:00Z
-  - **Scope**: Phase 1 Critical Fixes CI/CD Validation
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE2_BATCH_2A_VERIFICATION.md
-- Kategorie: governance_and_docs
-- Hash: `5a3870f959127e92`
-- Titel: Analytics Phase 2 – Batch 2A Verification Report
-- Auszug:
-  - **Date**: 2026-08-15 13:50 UTC
-  - **Batch**: Process Mining Core (6 functions)
-  - **Status**: ✅ 100% COMPLETE AND VERIFIED
