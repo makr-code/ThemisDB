@@ -3,13 +3,13 @@
 ## Task: Distributed Analytics Coordinator Safety Controls
 
 ### Acceptance Criteria (from ROADMAP)
-- [ ] Fail-closed behavior for unsupported dependency/capability states
-- [ ] Circuit breaker pattern for failed shards
-- [ ] Timeout + recovery mechanism
-- [ ] Bounded queue for managing concurrent requests
-- [ ] Comprehensive error-path handling for degradation scenarios
-- [ ] All tests PASS
-- [ ] Benchmarks show gates PASS
+- [x] Fail-closed behavior for unsupported dependency/capability states
+- [x] Circuit breaker pattern for failed shards
+- [x] Timeout + recovery mechanism
+- [x] Bounded queue for managing concurrent requests
+- [x] Comprehensive error-path handling for degradation scenarios
+- [x] All tests PASS
+- [x] Benchmarks show gates PASS
 
 ### Implementation Steps
 
