@@ -216,6 +216,88 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
+      - name: Open tracker issue on Doxygen FAIL
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Doxygen] Coverage gate failure — PR #${{ github.event.pull_request.number }} (${{ github.head_ref }})'
+          issue-marker: '<!-- doxygen-gate:pr:${{ github.event.pull_request.number }} -->'
+          issue-body: |
+            <!-- doxygen-gate:pr:${{ github.event.pull_request.number }} -->
+            ## Doxygen Governance Gate — FAIL
+
+            PR: #${{ github.event.pull_request.number }} (`${{ github.head_ref }}`)
+            Changed files: `${{ steps.gate_result.outputs.changed_files }}`
+            Coverage enforced: `${{ steps.gate_result.outputs.coverage_enforced }}`
+            Coverage waived: `${{ steps.gate_result.outputs.coverage_waived }}`
+
+            ${{ steps.gate_result.outputs.summary }}
+
+            ---
+            - Workflow: `${{ github.workflow }}`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Commit: `${{ github.sha }}`
+          labels-to-add: 'quality/doxygen-failed,status/needs-attention'
+          status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Open tracker issue on Doxygen WARN
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Doxygen] Coverage gate warning — PR #${{ github.event.pull_request.number }} (${{ github.head_ref }})'
+          issue-marker: '<!-- doxygen-gate:pr:${{ github.event.pull_request.number }} -->'
+          issue-body: |
+            <!-- doxygen-gate:pr:${{ github.event.pull_request.number }} -->
+            ## Doxygen Governance Gate — WARN
+
+            PR: #${{ github.event.pull_request.number }} (`${{ github.head_ref }}`)
+            Changed files: `${{ steps.gate_result.outputs.changed_files }}`
+            Coverage enforced: `${{ steps.gate_result.outputs.coverage_enforced }}`
+            Coverage waived: `${{ steps.gate_result.outputs.coverage_waived }}`
+
+            ${{ steps.gate_result.outputs.summary }}
+
+            ---
+            - Workflow: `${{ github.workflow }}`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Commit: `${{ github.sha }}`
+          labels-to-add: 'quality/doxygen-warning,status/needs-attention'
+          status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Resolve tracker issue on Doxygen PASS
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Doxygen] Coverage gate failure — PR #${{ github.event.pull_request.number }} (${{ github.head_ref }})'
+          issue-marker: '<!-- doxygen-gate:pr:${{ github.event.pull_request.number }} -->'
+          issue-body: |
+            <!-- doxygen-gate:pr:${{ github.event.pull_request.number }} -->
+            ## Doxygen Governance Gate — ✅ PASS (recovered)
+
+            PR #${{ github.event.pull_request.number }} (`${{ github.head_ref }}`) now passes Doxygen governance checks.
+
+            - Workflow: `${{ github.workflow }}`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Commit: `${{ github.sha }}`
+          labels-to-add: 'status/resolved'
+          status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/resolved'
+          allow-missing: 'true'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
       - name: Fail on blocking Doxygen verdict
         if: always() && steps.gate_result.outputs.verdict == 'FAIL'
         run: |

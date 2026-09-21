@@ -101,6 +101,7 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -161,6 +162,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4  # v7.0.1
@@ -215,7 +217,51 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-  # 3. Code Maturity Analysis
+      - name: Export wiki drift count
+        id: wiki_drift
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path("/tmp/dev-llm-wiki-sync.json")
+          count = 0
+          if p.exists():
+              data = json.loads(p.read_text(encoding="utf-8"))
+              count = len(data.get("findings", []))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"findings_count={count}\n")
+          PY
+
+      - name: Open tracker issue for wiki drift findings
+        if: always() && steps.wiki_drift.outputs.findings_count != '0'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[AI Context] Developer LLM Wiki drift detected'
+          issue-marker: '<!-- llm-wiki-drift:develop -->'
+          issue-body: |
+            <!-- llm-wiki-drift:develop -->
+            ## Developer LLM Wiki — drift findings detected
+
+            The scheduled wiki-sync check found `${{ steps.wiki_drift.outputs.findings_count }}` finding(s) in `ai_context/developer_llm_wiki/`.
+
+            This means one or more wiki artifacts are stale relative to their root SOT sources (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `BRANCHING_STRATEGY.md`, `VERSIONING.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`).
+
+            See the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for the full report.
+
+            **Action required:** re-run `maintenance-docs` with `llm_wiki_apply_updates: true` or manually update the affected wiki artifacts.
+
+            ---
+            - Scheduled scan: `maintenance-docs`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
+          labels-to-add: 'quality,documentation,status/needs-attention'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
   code-maturity:
     name: Code Maturity Analysis
     runs-on: ubuntu-latest
@@ -479,6 +525,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4  # v7.0.1
@@ -516,12 +563,39 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-  # 5. Root Docs Hygiene
+      - name: Open tracker issue for orphan findings
+        if: always() && hashFiles('/tmp/docs-orphan-check.json') != ''
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Docs] Orphan files detected in docs/de + docs/en'
+          issue-marker: '<!-- docs-orphan-check:weekly -->'
+          issue-body: |
+            <!-- docs-orphan-check:weekly -->
+            ## Docs Orphan Check — findings detected
+
+            The weekly orphan-file scan found unreferenced documentation files in `docs/de` and/or `docs/en`.
+
+            See the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for the full artifact report.
+
+            **Action required:** review orphaned files, move to `docs/ARCHIVED/` or update navigation links.
+
+            ---
+            - Scheduled scan: `maintenance-docs`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
+          labels-to-add: 'quality,documentation,status/needs-attention'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
   root-docs-hygiene:
     name: Repo root markdown hygiene
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4  # v7.0.1
@@ -559,12 +633,41 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Open tracker issue for hygiene findings
+        if: always() && hashFiles('/tmp/root-docs-hygiene.json') != ''
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Docs] Root documentation hygiene findings'
+          issue-marker: '<!-- docs-root-hygiene:weekly -->'
+          issue-body: |
+            <!-- docs-root-hygiene:weekly -->
+            ## Root Docs Hygiene — findings detected
+
+            The scheduled hygiene scan found misplaced or non-conforming files in the repository root.
+
+            See the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for the full artifact report.
+
+            **Action required:** move temporary files to appropriate subdirectories (`docs/reports/`, `scripts/`, `docs/ARCHIVED/`) or delete if no longer needed.
+
+            ---
+            - Scheduled scan: `maintenance-docs`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
+          labels-to-add: 'quality,documentation,status/needs-attention'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
   # 6. src/include ↔ docs/de Alignment
   src-docs-alignment:
     name: src/include ↔ docs/de Alignment
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4  # v7.0.1
@@ -602,8 +705,33 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # 5. ai_working + ai_context Hygiene
+      - name: Open tracker issue for alignment findings
+        if: always() && hashFiles('/tmp/align-report.json') != ''
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Docs] src/include ↔ docs/de alignment gaps detected'
+          issue-marker: '<!-- docs-src-alignment:weekly -->'
+          issue-body: |
+            <!-- docs-src-alignment:weekly -->
+            ## src/include ↔ docs/de Alignment — gaps detected
+
+            The weekly alignment scan found mismatches between module documentation in `src/`/`include/` and the user-facing docs under `docs/de`.
+
+            See the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for the full artifact report.
+
+            **Action required:** update affected module READMEs or user-facing docs to re-align.
+
+            ---
+            - Scheduled scan: `maintenance-docs`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
+          labels-to-add: 'quality,documentation,status/needs-attention'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
   # Detects stale AI-session working documents in ai_working/ (> STALE_DAYS days,
   # not governance-critical) and reports orphaned ai_context/ entries.
   # Governance-critical files are explicitly excluded from the stale-file list:
@@ -618,6 +746,7 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read
+      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4  # v7.0.1
@@ -769,8 +898,36 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
+      - name: Open tracker issue for ai_working stale + ai_context orphan findings
+        if: always() && (steps.hygiene.outputs.stale_count != '0' || steps.hygiene.outputs.orphan_ctx_count != '0')
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[AI Context] Stale ai_working files or unreferenced ai_context entries'
+          issue-marker: '<!-- ai-hygiene:weekly -->'
+          issue-body: |
+            <!-- ai-hygiene:weekly -->
+            ## ai_working + ai_context Hygiene — findings detected
 
-  # 7. Doxygen API Reference Extraction
+            - Stale `ai_working/` files (≥30 days): `${{ steps.hygiene.outputs.stale_count }}`
+            - Unreferenced `ai_context/` files: `${{ steps.hygiene.outputs.orphan_ctx_count }}`
+
+            See the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for the full artifact report.
+
+            **Action required:**
+            - Review stale `ai_working/` documents and delete or archive as appropriate.
+            - Ensure all `ai_context/` files are referenced in `INDEX.md` or `AI_WIKI_INTEGRATION_PLAYBOOK.md`.
+
+            ---
+            - Scheduled scan: `maintenance-docs`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
+          labels-to-add: 'quality,documentation,status/needs-attention'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
   doxygen-api-extraction:
     name: Doxygen XML → API Reference wiki pages
     runs-on: ubuntu-latest
